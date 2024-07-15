@@ -1,4 +1,4 @@
-export default function Greet() {
-    console.log("hey")
+export default function greet() {
+  console.log('hey')
 }
-Greet()
+greet()
