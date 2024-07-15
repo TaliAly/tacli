@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "Running Tacli app pre-commit script"
+npx --no-install lint-staged
+echo "Completed Tacli app pre-commit script"
