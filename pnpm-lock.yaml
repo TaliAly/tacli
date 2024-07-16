@@ -14,6 +14,9 @@ importers:
       clipboard:
         specifier: 2.0.11
         version: 2.0.11
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
     devDependencies:
       '@types/node':
         specifier: 20.14.10
