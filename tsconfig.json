@@ -1,11 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
     "baseUrl": ".",
     "allowJs": true,
     "outDir": "dist",

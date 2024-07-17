@@ -6,11 +6,14 @@ module.exports = [
     ...require('eslint-config-love'),
     files: ['**/*.js', '**/*.ts'],
     plugins: {
-      prettier
+      prettier,
     },
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
       'prettier/prettier': 'error',
-    }
+    },
+  },
+  {
+    ignores: ['dist/'],
   },
 ]
