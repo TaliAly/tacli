@@ -4,11 +4,6 @@ import Google from './google'
 
 dotenv.config()
 
-interface AiProps {
-  prompt: string
-  model: 'ollama' | 'gemini'
-}
-
 export default async function ai({ prompt, model }: AiProps) {
   const models = {
     gemini: Google,
