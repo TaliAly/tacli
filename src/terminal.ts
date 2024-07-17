@@ -1,32 +1,38 @@
 import { execSync } from 'child_process'
 import readline from 'node:readline'
-import Ia from './ai'
+import ai from './sdk/ai'
+import { exit } from 'process'
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 })
 
-export default function term() {
+export default async function term() {
   const promise = new Promise((res) => {
     rl.question('\n> ', (answer) => {
       res(answer)
     })
   })
 
-  promise.then((res) => {
-    if (res == 'quit' || res == 'exit') {
+  const res = await promise
+
+  switch (res) {
+    case 'quit':
+    case 'exit':
       rl.close()
-      return
-    }
-    if (res == 'ai') {
-      Ia()
-      console.log('exito')
-      return
-    }
-    execSync(String(res), {
-      stdio: [0, 1, 2],
-    })
-    term()
-  })
+      exit(0)
+    case 'ai':
+      await ai({
+        prompt: 'hi',
+        model: 'ollama', // change it for a laugh
+      })
+      break
+    default:
+      execSync(String(res), {
+        stdio: [0, 1, 2],
+      })
+      break
+  }
+  term()
 }

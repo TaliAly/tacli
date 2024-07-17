@@ -8,9 +8,7 @@ const google = createGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_API_KEY,
 })
 
-export default async function Ia() {
-  const prompt = 'hola mundo, esta es una prueba, funcioona?'
-
+export default async function Google(prompt: string) {
   try {
     const model = google('models/gemini-1.5-pro-latest')
     const { text } = await generateText({
