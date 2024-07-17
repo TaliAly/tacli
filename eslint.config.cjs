@@ -13,4 +13,7 @@ module.exports = [
       'prettier/prettier': 'error',
     }
   },
+  {
+    ignores: ['dist/']
+  }
 ]

@@ -2,6 +2,7 @@ import { execSync, spawnSync } from 'child_process'
 import { Command } from 'commander'
 import readline from 'node:readline'
 import { argv } from 'process'
+import Ai from './src/Ai'
 
 const program = new Command()
 program
@@ -31,6 +32,13 @@ function ask() {
       rl.close()
       return
     }
+
+    if (res == 'ai') {
+      Ai()
+      prompt()
+      return
+    }
+
     const process = execSync(String(res), {
       stdio: [0, 1, 2],
     })
