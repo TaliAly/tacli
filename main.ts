@@ -1,31 +1,20 @@
-import { execSync } from 'child_process'
-import readline from 'node:readline'
+import { Command } from 'commander'
+import { argv } from 'process'
+import term from './src/terminal'
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
+const program = new Command()
+program
+  .version('1.0.0')
+  .description('a funny warp-like copycat')
+  .command('ask')
+  .description('ask the AI for help')
+  .action(term) // placeholder please change it @Ajoxlot
 
 function main() {
-  prompt()
+  if (!argv[2]) {
+    term()
+    return
+  }
+  program.parse(argv)
 }
 main()
-
-function prompt() {
-  const promise = new Promise((res) => {
-    rl.question('\n> ', (answer) => {
-      res(answer)
-    })
-  })
-
-  promise.then((res) => {
-    if (res == 'quit') {
-      rl.close()
-      return
-    }
-    execSync(String(res), {
-      stdio: [0, 1, 2],
-    })
-    prompt()
-  })
-}

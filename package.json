@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "main.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "pkg dist/main.js",
     "prepare": "husky",
     "lint": "eslint --fix .",
     "start": "node dist/main.js",
@@ -32,5 +32,8 @@
     "*.{js,ts}": [
       "eslint ."
     ]
+  },
+  "volta": {
+    "node": "22.4.0"
   }
 }
