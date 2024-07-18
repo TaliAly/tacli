@@ -2,6 +2,9 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    },
     "allowJs": true,
     "outDir": "dist",
     "lib": ["es2022"],
@@ -15,5 +18,10 @@
     "moduleDetection": "force",
     "moduleResolution": "NodeNext",
     "noUncheckedIndexedAccess": true,
-  }
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "eslint.config.cjs"
+  ]
 }

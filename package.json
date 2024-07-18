@@ -3,24 +3,24 @@
   "version": "0.0.1",
   "main": "main.ts",
   "scripts": {
-    "build": "pkg dist/main.js",
-    "prepare": "husky",
     "lint": "eslint --fix .",
-    "start": "node dist/main.js",
-    "dev": "tsc && node --env-file=.env.local dist/main.js"
+    "start": "node --env-file=.env dist/main.js",
+    "dev": "node --watch --env-file=.env dist/main.js",
+    "build": "tsc && tsconfig-replace-paths --project tsconfig.json",
+    "prepare": "husky"
   },
   "engines": {
     "node": ">=20",
     "pnpm": ">9.0"
   },
   "dependencies": {
-    "@ai-sdk/google": "^0.0.27",
+    "@ai-sdk/google": "0.0.27",
     "@inquirer/prompts": "5.1.2",
-    "ai": "^3.2.27",
+    "ai": "3.2.27",
     "clipboard": "2.0.11",
-    "commander": "^12.1.0",
-    "dotenv": "^16.4.5",
-    "ollama-ai-provider": "^0.10.0"
+    "commander": "12.1.0",
+    "dotenv": "16.4.5",
+    "ollama-ai-provider": "0.10.0"
   },
   "devDependencies": {
     "@types/node": "20.14.10",
@@ -31,6 +31,7 @@
     "husky": "9.0.11",
     "lint-staged": "15.2.7",
     "prettier": "3.3.3",
+    "tsconfig-replace-paths": "0.0.14",
     "typescript": "5.5.3"
   },
   "lint-staged": {

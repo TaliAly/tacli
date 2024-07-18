@@ -1,6 +1,7 @@
-import { Command } from 'commander'
 import { argv } from 'process'
-import term from './src/terminal'
+import { Command } from 'commander'
+
+import term from '@/terminal'
 
 const program = new Command()
 program
@@ -17,4 +18,5 @@ function main() {
   }
   program.parse(argv)
 }
+
 main()
