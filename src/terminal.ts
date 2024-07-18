@@ -9,14 +9,18 @@ const rl = readline.createInterface({
   output: process.stdout,
 })
 
-export default async function term() {
-  const promise = new Promise((res) => {
+async function askQuestion(query: string): Promise<string> {
+  return new Promise((resolve) => rl.question(query, resolve))
+}
+
+export default async function term(): Promise<void> {
+  const promise: Promise<string> = new Promise((res) => {
     rl.question('\n> ', (answer) => {
       res(answer)
     })
   })
 
-  const res = await promise
+  const res: String = await promise
 
   switch (res) {
     case 'quit':
@@ -24,10 +28,16 @@ export default async function term() {
       rl.close()
       exit(0)
     case 'ai':
-      await ai({
-        prompt: 'hi',
-        model: 'ollama', // change it for a laugh
-      })
+      const prompt = await askQuestion('Enter your question for the AI: ')
+      if (prompt === 'exit') {
+        console.log('Exiting...')
+      } else {
+        ai({
+          prompt: prompt,
+          model: 'gemini', // Change this according to the model you want to use
+        })
+        console.log(`Generating your response...`)
+      }
       break
     default:
       execSync(String(res), {
