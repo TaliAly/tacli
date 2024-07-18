@@ -1,7 +1,8 @@
-import { execSync } from 'child_process'
-import readline from 'node:readline'
-import ai from './sdk/ai'
 import { exit } from 'process'
+import readline from 'node:readline'
+import { execSync } from 'child_process'
+
+import ai from '@/sdk/ai'
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -45,5 +46,6 @@ export default async function term(): Promise<void> {
       })
       break
   }
+
   term()
 }
