@@ -28,16 +28,15 @@ export default async function term(): Promise<void> {
       rl.close()
       exit(0)
     case 'ai':
-      const prompt = await askQuestion('Introduce tu pregunta para la AI: ')
+      const prompt = await askQuestion('Enter your question for the AI: ')
       if (prompt === 'exit') {
-        console.log('Saliendo')
+        console.log('Exiting...')
       } else {
-        console.log(`Tu pregunta: ${prompt}`)
         ai({
           prompt: prompt,
-          model: 'gemini', // Cambia esto según el modelo que desees usar
+          model: 'gemini', // Change this according to the model you want to use
         })
-        console.log(`Generando tu respuesta...`)
+        console.log(`Generating your response...`)
       }
       break
     default:
