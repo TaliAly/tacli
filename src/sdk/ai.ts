@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
-import Ollama from './ollama'
-import Google from './google'
+
+import Ollama from '@/sdk/ollama'
+import Google from '@/sdk/google'
 
 dotenv.config()
 
