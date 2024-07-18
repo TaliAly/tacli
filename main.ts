@@ -2,6 +2,7 @@ import { argv } from 'process'
 import { Command } from 'commander'
 
 import term from '@/terminal'
+import ai from '@/sdk/ai'
 
 const program = new Command()
 program
@@ -9,7 +10,7 @@ program
   .description('a funny warp-like copycat')
   .command('ask')
   .description('ask the AI for help')
-  .action(term) // placeholder please change it @Ajoxlot
+  .action(ai) // placeholder please change it @Ajoxlot
 
 function main() {
   if (!argv[2]) {

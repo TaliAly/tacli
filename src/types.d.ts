@@ -1,4 +1,5 @@
-interface AiProps {
+export interface AiProps {
   prompt: string
-  model: 'ollama' | 'gemini'
+  model: model
 }
+export type model = 'ollama' | 'google'

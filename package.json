@@ -6,7 +6,7 @@
     "lint": "eslint --fix .",
     "start": "node --env-file=.env dist/main.js",
     "dev": "node --watch --env-file=.env dist/main.js",
-    "build": "tsc && tsconfig-replace-paths --project tsconfig.json",
+    "build": "tsc --project tsconfig.json && tsconfig-replace-paths --project tsconfig.json",
     "prepare": "husky"
   },
   "engines": {

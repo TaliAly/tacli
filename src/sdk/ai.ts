@@ -2,18 +2,15 @@ import dotenv from 'dotenv'
 
 import Ollama from '@/sdk/ollama'
 import Google from '@/sdk/google'
+import { AiProps, model } from '@/types'
 
 dotenv.config()
 
 export default async function ai({ prompt, model }: AiProps) {
+  const choose = model.replaceAll(`'`, '') as model
   const models = {
-    gemini: Google,
+    google: Google,
     ollama: Ollama,
   }
-
-  Object.entries(models).map((target) => {
-    if (target[0] == model) {
-      target[1](prompt)
-    }
-  })
+  models[choose](prompt)
 }

@@ -1,8 +1,9 @@
-import { exit } from 'process'
+import { env, exit } from 'process'
 import readline from 'node:readline'
 import { execSync } from 'child_process'
 
 import ai from '@/sdk/ai'
+import { model } from './types'
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,7 +16,7 @@ async function askQuestion(query: string): Promise<string> {
 
 export default async function term(): Promise<void> {
   const promise: Promise<string> = new Promise((res) => {
-    rl.question('\n> ', (answer) => {
+    rl.question('~> ', (answer) => {
       res(answer)
     })
   })
@@ -32,11 +33,10 @@ export default async function term(): Promise<void> {
       if (prompt === 'exit') {
         console.log('Exiting...')
       } else {
-        ai({
+        await ai({
           prompt: prompt,
-          model: 'gemini', // Change this according to the model you want to use
+          model: env.model as model, // Change this according to the model you want to use
         })
-        console.log(`Generating your response...`)
       }
       break
     default:
@@ -45,6 +45,5 @@ export default async function term(): Promise<void> {
       })
       break
   }
-
   term()
 }
