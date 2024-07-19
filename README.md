@@ -15,3 +15,10 @@ pnpm i
 pnpm build
 
 ```
+
+## Env file
+
+```bash
+model = ollama # choose between the models in src/sdk
+GOOGLE_API_KEY =
+```
