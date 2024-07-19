@@ -10,7 +10,7 @@ program
   .description('a funny warp-like copycat')
   .command('ask')
   .description('ask the AI for help')
-  .action(ai) // placeholder please change it @Ajoxlot
+  .action(ai)
 
 function main() {
   if (!argv[2]) {
