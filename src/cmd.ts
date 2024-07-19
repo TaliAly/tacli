@@ -2,7 +2,7 @@ import ai from './sdk/ai'
 import { execSync } from 'node:child_process'
 import { prompt } from './terminal'
 import { model } from './types'
-import { chdir, env } from 'node:process'
+import { chdir, env, platform } from 'node:process'
 import { homedir } from 'node:os'
 
 const commands = {
@@ -24,6 +24,10 @@ const commands = {
       }
     }
     chdir(dir[1]!)
+  },
+  cls: function () {
+    const command = platform ? 'cls' : 'clear'
+    execSync(command, { stdio: 'inherit' })
   },
 }
 
