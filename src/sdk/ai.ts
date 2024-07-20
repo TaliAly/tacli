@@ -11,5 +11,6 @@ export default async function ai({ prompt, model }: AiProps) {
     google: Google,
     ollama: Ollama,
   }
-  models[model](prompt)
+  const output = await models[model](prompt)
+  return output
 }

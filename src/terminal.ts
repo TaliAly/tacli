@@ -23,6 +23,6 @@ export default async function term(): Promise<void> {
     exit(0)
   }
 
-  bosh(res)
+  await bosh(res)
   term()
 }

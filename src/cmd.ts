@@ -1,29 +1,35 @@
 import ai from './sdk/ai'
 import { execSync } from 'node:child_process'
-import { prompt } from './terminal'
 import { model } from './types'
 import { chdir, env } from 'node:process'
 import { homedir } from 'node:os'
+import tip from './ai/prompts'
+import { prompt } from './terminal'
 
 const commands = {
-  ai: async function () {
-    const input = await prompt('Ask: ')
-    if (!(input === 'exit')) {
-      await ai({
-        prompt: input,
-        model: env.model as model,
-      })
-    }
+  '#!': async function (input: string[]) {
+    const res = input.slice(1).join(' ')
+    await ai({
+      prompt: res,
+      model: env.model as model,
+    })
   },
-  cd: function (dir: string) {
-    if (dir == undefined) {
-      try {
-        chdir(homedir())
-      } catch (err) {
-        console.error(err)
-      }
+  cd: async function (input: string[]) {
+    if (input[0] == undefined) {
+      chdir(homedir())
     }
-    chdir(dir[1]!)
+    chdir(input[1]!)
+  },
+  '#': async function (input: string[]) {
+    const res = input.slice(1).join(' ')
+    console.log(`DEBUG REASON
+${tip.linux} ${res}
+`)
+    const out = await ai({
+      prompt: `${tip.linux} ${res}`,
+      model: env.model as model,
+    })
+    console.log(out)
   },
 }
 
@@ -33,8 +39,8 @@ export default async function bosh(res: string) {
 
   for (let items of loop) {
     const [key, value] = items
-    if (key == res) {
-      value(cmd[1]!)
+    if (key == cmd[0]) {
+      await value(cmd)
       return
     }
   }
@@ -43,7 +49,11 @@ export default async function bosh(res: string) {
     execSync(String(res), {
       stdio: [0, 1, 2],
     })
-  } catch {
-    console.log('hi')
+  } catch (err) {
+    const res = await ai({
+      prompt: `explain why error message appeared and give a suggestion on what the user needs to run to solve the problem. Error message: ${err}`,
+      model: env.model as model,
+    })
+    console.log(res)
   }
 }
