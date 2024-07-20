@@ -16,7 +16,7 @@ export default async function Google(prompt: string) {
       prompt,
     })
 
-    console.log(text)
+    return text
   } catch (error) {
     console.error(error)
   }
