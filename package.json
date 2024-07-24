@@ -4,20 +4,17 @@
   "main": "main.ts",
   "scripts": {
     "lint": "eslint --fix .",
-    "start": "node --env-file=.env dist/main.js",
-    "dev": "node --watch --env-file=.env dist/main.js",
-    "build": "tsc --project tsconfig.json && tsconfig-replace-paths --project tsconfig.json",
-    "build:watch": "tsc --project tsconfig.json && tsconfig-replace-paths --project tsconfig.json",
+    "start": "bun main.ts",
+    "dev": "bun --watch main.ts",
+    "build": "bun build ./main.ts --output tacli",
     "prepare": "husky"
-  },
-  "engines": {
-    "node": ">=20",
-    "pnpm": ">9.0"
   },
   "dependencies": {
     "@ai-sdk/google": "0.0.27",
+    "@ai-sdk/openai": "^0.0.37",
     "@inquirer/prompts": "5.1.2",
     "ai": "3.2.27",
+    "chalk": "^5.3.0",
     "clipboard": "2.0.11",
     "commander": "12.1.0",
     "dotenv": "16.4.5",
@@ -39,8 +36,5 @@
     "*.{js,ts}": [
       "eslint ."
     ]
-  },
-  "volta": {
-    "node": "22.4.0"
   }
 }

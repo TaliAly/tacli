@@ -7,16 +7,27 @@ const rl = readline.createInterface({
   output: process.stdout,
 })
 
-export async function prompt(query?: string): Promise<string> {
+interface promptType {
+  defaultPrompt?: string
+}
+
+export async function prompt({ defaultPrompt }: promptType): Promise<string> {
   const path = cwd().split('/').slice(-2).join('/')
 
-  return new Promise((resolve) =>
-    rl.question(!!query ? query! : `${path} ~> `, resolve),
-  )
+  return new Promise((resolve) => {
+    // rl.prompt is not used because then the path wouldn't
+    // update with it! (also because we're short on time)
+    rl.question(`${path} ~> `, resolve)
+    if (!!defaultPrompt) {
+      rl.write(defaultPrompt)
+    }
+  })
 }
 
 export default async function term(): Promise<void> {
-  const res = await prompt()
+  const res = await prompt({
+    defaultPrompt: undefined,
+  })
 
   if (res == 'quit' || res == 'exit') {
     rl.close()

@@ -1,11 +1,12 @@
 import dotenv from 'dotenv'
 import { generateText } from 'ai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { env } from 'process'
 
 dotenv.config()
 
 const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_API_KEY,
+  apiKey: env.GOOGLE_API_KEY,
 })
 
 export default async function Google(prompt: string) {
@@ -17,7 +18,8 @@ export default async function Google(prompt: string) {
     })
 
     return text
-  } catch (error) {
-    console.error(error)
+  } catch (err) {
+    console.error(err)
+    return null
   }
 }

@@ -15,5 +15,6 @@ export default async function Ollama(input: string) {
     return text
   } catch (err) {
     console.log(err)
+    return null
   }
 }
