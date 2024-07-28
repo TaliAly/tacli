@@ -11,14 +11,13 @@
 ```bash
 git clone https://github.com/TaliAly/tacli.git
 # ssh version: git clone git@github.com:TaliAly/tacli.git
-pnpm i
-pnpm build
-
+bun i
+bun dev
 ```
 
-## Env file
+## How to use?
 
-```bash
-model = ollama # choose between the models in src/sdk
-GOOGLE_API_KEY =
-```
+Worp has two uses.
+One is using as a shell for your projects instead of your current terminal
+
+The other is for using it as a terminal command

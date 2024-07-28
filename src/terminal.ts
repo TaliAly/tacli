@@ -1,39 +1,46 @@
-import { cwd, exit } from 'process'
+import { execSync } from 'node:child_process'
+import { exit } from 'process'
+import cmd from './cmd'
+import prompt from './cmd/prompt'
+import ai from './sdk/ai'
+import tip from './ai/prompts'
+import getOs from 'utils/os'
+import { model } from './types'
+import { stderr } from 'node:process'
 import readline from 'node:readline'
-import bosh from './cmd'
+import Select from './ai/select'
 
-const rl = readline.createInterface({
+const reader = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 })
 
-interface promptType {
-  defaultPrompt?: string
-}
-
-export async function prompt({ defaultPrompt }: promptType): Promise<string> {
-  const path = cwd().split('/').slice(-2).join('/')
-
-  return new Promise((resolve) => {
-    // rl.prompt is not used because then the path wouldn't
-    // update with it! (also because we're short on time)
-    rl.question(`${path} ~> `, resolve)
-    if (!!defaultPrompt) {
-      rl.write(defaultPrompt)
-    }
+export default async function term(defaultCommand?: string): Promise<void> {
+  const { question } = prompt({
+    defaultPrompt: defaultCommand!,
+    reader: reader,
   })
-}
-
-export default async function term(): Promise<void> {
-  const res = await prompt({
-    defaultPrompt: undefined,
-  })
+  const res: string = await question
 
   if (res == 'quit' || res == 'exit') {
-    rl.close()
+    reader.close()
     exit(0)
   }
 
-  await bosh(res)
-  term()
+  await cmd(res)
+
+  try {
+    execSync(String(res), {
+      stdio: [0, 1, 2],
+    })
+  } catch (err) {
+    const out = await ai({
+      prompt: `${tip.error} What the usar ran: ${res}. The error message: ${stderr.toString()}. And the system is: ${getOs()}`,
+      model: process.env.ollama_model!,
+      service: process.env.service as model,
+    })
+    const ans = await Select(out!)
+    defaultCommand = ans
+  }
+  term(defaultCommand)
 }

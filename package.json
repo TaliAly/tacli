@@ -6,7 +6,7 @@
     "lint": "eslint --fix .",
     "start": "bun main.ts",
     "dev": "bun --watch main.ts",
-    "build": "bun build ./main.ts --output tacli",
+    "build": "bun build ./main.ts --outfile dist/tacli --target bun",
     "prepare": "husky"
   },
   "dependencies": {
@@ -14,14 +14,20 @@
     "@ai-sdk/openai": "^0.0.37",
     "@inquirer/prompts": "5.1.2",
     "ai": "3.2.27",
+    "bun-promptx": "^0.2.0",
     "chalk": "^5.3.0",
     "clipboard": "2.0.11",
     "commander": "12.1.0",
+    "config": "^3.3.12",
     "dotenv": "16.4.5",
+    "inquirer": "^10.1.2",
+    "js-yaml": "^4.1.0",
     "ollama-ai-provider": "0.10.0"
   },
   "devDependencies": {
-    "@types/node": "20.14.10",
+    "@types/bun": "^1.1.6",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.14.12",
     "eslint": "8.57.0",
     "eslint-config-love": "56.0.0",
     "eslint-config-prettier": "9.1.0",

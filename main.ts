@@ -1,16 +1,17 @@
 import { argv, env, exit } from 'process'
 import { Command } from 'commander'
-
+import loadConf from '@/config'
+import { model } from '@/types'
 import term from '@/terminal'
 import ai from '@/sdk/ai'
-import { model } from '@/types'
 
 const program = new Command()
 program.version('1.0.0').description('a funny warp-like copycat')
 
 async function askAI(input: string) {
   const text = await ai({
-    model: env.MODEL as model,
+    service: env.service as model,
+    model: env.google_model!,
     prompt: input,
   })
   console.log(text)
@@ -27,6 +28,7 @@ program
   })
 
 function main() {
+  loadConf()
   if (!argv[2]) {
     term()
     return

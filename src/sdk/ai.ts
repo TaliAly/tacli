@@ -1,15 +1,15 @@
 import Ollama from '@/sdk/ollama'
 import Google from '@/sdk/google'
-import { AiProps } from '@/types'
-import openAI from './openai'
+import OpenAI from './openai'
+import { handlerAi } from '@/types'
 
-export default async function ai({ prompt, model }: AiProps) {
-  const models = {
+export default async function ai({ prompt, model, service }: handlerAi) {
+  const services = {
     google: Google,
     ollama: Ollama,
-    openai: openAI,
+    openai: OpenAI,
   }
 
-  const output = await models[model](prompt)
+  const output = await services[service]({ prompt: prompt, model: model })
   return output
 }
