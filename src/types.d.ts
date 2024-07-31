@@ -1,10 +1,15 @@
-export type model = 'ollama' | 'google' | 'openai'
+export type serviceT = 'ollama' | 'google' | 'openai'
 
-interface serviceAi {
+export interface AiServiceT {
   prompt: string
   model: string
 }
 
-interface handlerAi extends serviceAi {
-  service: model
+export interface AiT extends AiServiceT {
+  service: serviceT
+}
+
+export interface AiServiceR {
+  msg: string
+  error: boolean
 }

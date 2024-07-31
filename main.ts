@@ -1,31 +1,28 @@
 import { argv, env, exit } from 'process'
 import { Command } from 'commander'
 import loadConf from '@/config'
-import { model } from '@/types'
 import term from '@/terminal'
-import ai from '@/sdk/ai'
+import Code from '@/flags/code'
 
 const program = new Command()
 program.version('1.0.0').description('a funny warp-like copycat')
 
-async function askAI(input: string) {
-  const text = await ai({
-    service: env.service as model,
-    model: env.google_model!,
-    prompt: input,
-  })
-  console.log(text)
-  return
-}
-
 program
-  .command('ask')
-  .description('immediatly ask the AI without accesing the terminal')
-  .option('-c --cmd', 'ask for a terminal command instead of regular AI')
-  .action(async function (input) {
-    await askAI(input)
-    exit(0)
-  })
+  .option(
+    '-a',
+    '--ask',
+    'Use the GPT capabilities of the AI to ask about anything',
+  )
+  .option(
+    '-c',
+    '--code',
+    'Pass a custom config for the terminal when working with different AI and projects',
+  )
+  .option(
+    '-s',
+    '--shell',
+    'Ask the AI a shell command in natural language and get back the output withing your clipboard',
+  )
 
 function main() {
   loadConf()

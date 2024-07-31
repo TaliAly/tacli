@@ -4,15 +4,20 @@ import { chdir, env } from 'node:process'
 import { homedir } from 'node:os'
 import tip from './ai/prompts'
 import { error } from 'node:console'
+import { parser } from './ai/parser'
 
 const commands = {
   '#!': async function (input: string) {
-    const out = await ai({
+    const { error, msg } = await ai({
       prompt: input,
-      model: env.ollama_model!,
+      model: env.service_model!,
       service: env.service as model,
     })
-    return out
+    if (!!error) throw error
+    return {
+      error: false,
+      answer: msg,
+    }
   },
   cd: async function (input: string) {
     if (input[1] === undefined) {
@@ -20,15 +25,23 @@ const commands = {
       return
     }
     chdir(input[1]!)
-    return null
+
+    return {
+      error: false,
+      answer: null,
+    }
   },
   '#': async function (input: string) {
-    const out = await ai({
+    const { error, msg } = await ai({
       prompt: `${tip.linux} ${input}`,
-      model: env.ollama_model!,
+      model: env.service_model!,
       service: env.service as model,
     })
-    return out
+    if (!!error) throw error
+    return {
+      error: false,
+      answer: msg,
+    }
   },
 }
 
@@ -40,15 +53,21 @@ export default async function cmd(input: string) {
   for (let items of loop) {
     const [key, value] = items
     if (key == args[0]) {
-      const ans = await value(com)
+      const { answer, error } = await value(com)
+      if (!!error)
+        return {
+          error: true,
+          answer: null,
+        }
+
       return {
-        error: null,
-        answer: ans,
+        error: false,
+        answer: parser.select(answer)[0]?.text,
       }
     }
   }
   return {
-    error: true,
-    answer: 'no service was contacted',
+    error: false,
+    answer: null,
   }
 }
