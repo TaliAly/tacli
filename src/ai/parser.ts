@@ -6,7 +6,7 @@ export const parser = {
         description: '',
       },
     ]
-    if (!!input) return noOut
+    if (input == '') return noOut
     const regex = /`{1,3}((?:\\.|[^`])*)`{1,3}/g
     const matches = input.match(regex)
 
@@ -24,8 +24,16 @@ export const parser = {
     const regex = /`{1,3}((?:\\.|[^`])*)`{1,3}/g
     const matches = input.match(regex)
 
-    if (!matches) return ''
+    if (!matches) {
+      return {
+        text: 'Not found',
+        description: '',
+      }
+    }
 
-    return matches[0]
+    return {
+      text: matches[0],
+      description: '',
+    }
   },
 }

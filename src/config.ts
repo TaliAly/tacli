@@ -1,8 +1,9 @@
 import config from './../tacli.json'
+import { serviceT } from './types'
 
 export default function loadConf() {
   return {
-    service: config.service,
+    service: config.service as serviceT,
     keys: {
       gemini: config.keys.gemini,
       openai: config.keys.openai,

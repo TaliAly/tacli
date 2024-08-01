@@ -1,25 +1,28 @@
-import tip from '@/ai/prompts'
+import tip from '@/ai/gptPrompts'
 import Select from '@/ai/select'
 import { stderr } from 'process'
 import getOs from './os'
-import { serviceT } from '@/types'
 import ai from '@/sdk/ai'
+import loadConf from '@/config'
 
 interface cmdErrHandlerT {
   res: string
+  err: string
 }
 
-export async function cmdErrHandler({ res }: cmdErrHandlerT) {
+const { model, service } = loadConf()
+
+export async function cmdErrHandler({ res, err }: cmdErrHandlerT) {
   const { error, msg } = await ai({
-    prompt: `${tip.error}. What the usar ran: ${res}. The error message: ${stderr.toString()}. And the system is: ${getOs()}`,
-    model: process.env.google_model!,
-    service: process.env.service as serviceT,
+    prompt: `${tip.error}. What the usar ran: ${res}. The error message: ${err}.`,
+    model: model!,
+    service: service,
   })
-  if (error) {
+  if (!!error) {
     console.log(error)
     return
   }
 
   const ans = await Select(msg!)
-  return ans
+  return ans.msg
 }

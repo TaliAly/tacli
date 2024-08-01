@@ -1,9 +1,8 @@
 import ai from './sdk/ai'
-import { model } from './types'
+import { serviceT } from './types'
 import { chdir, env } from 'node:process'
 import { homedir } from 'node:os'
-import tip from './ai/prompts'
-import { error } from 'node:console'
+import tip from './ai/gptPrompts'
 import { parser } from './ai/parser'
 
 const commands = {
@@ -11,7 +10,7 @@ const commands = {
     const { error, msg } = await ai({
       prompt: input,
       model: env.service_model!,
-      service: env.service as model,
+      service: env.service as serviceT,
     })
     if (!!error) throw error
     return {
@@ -35,7 +34,7 @@ const commands = {
     const { error, msg } = await ai({
       prompt: `${tip.linux} ${input}`,
       model: env.service_model!,
-      service: env.service as model,
+      service: env.service as serviceT,
     })
     if (!!error) throw error
     return {
@@ -59,10 +58,11 @@ export default async function cmd(input: string) {
           error: true,
           answer: null,
         }
-
+      const ans = parser.cmd(answer)
+      console.log(ans)
       return {
         error: false,
-        answer: parser.select(answer)[0]?.text,
+        answer: ans.text,
       }
     }
   }

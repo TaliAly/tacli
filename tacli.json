@@ -3,7 +3,7 @@
     "gemini": null,
     "openai": null
   },
-  "model": "ALIENTELLIGENCE/bashbot",
+  "model": "tinyllama",
   "service": "ollama",
   "ollama_model": "ALIENTELLIGENCE/bashbot",
   "openai_model": "gpt-4-turbo",

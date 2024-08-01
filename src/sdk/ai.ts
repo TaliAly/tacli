@@ -18,7 +18,7 @@ export default async function ai({
     model: model,
     prompt: prompt,
   })
-  console.log(msg)
+  console.log(model, service)
   return {
     msg: msg,
     error: error,

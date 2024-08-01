@@ -1,10 +1,11 @@
+import Select from './ai/select'
 import { execSync } from 'node:child_process'
 import { exit } from 'process'
 import cmd from './cmd'
 import prompt from './cmd/prompt'
 import readline from 'node:readline'
 import { cmdErrHandler } from 'utils/cmdErrHandler'
-import Select from './ai/select'
+import { stderr } from 'node:process'
 
 const reader = readline.createInterface({
   input: process.stdin,
@@ -39,8 +40,8 @@ export default async function term(defaultCommand?: string): Promise<void> {
       stdio: [0, 1, 2],
     })
   } catch (err) {
-    const ans = await cmdErrHandler({ res })
-    defaultCommand = ans?.msg!
+    const ans = await cmdErrHandler({ res, err: stderr.toString() })
+    defaultCommand = ans
   }
   term(defaultCommand)
 }
