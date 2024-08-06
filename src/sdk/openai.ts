@@ -1,17 +1,20 @@
 import { generateText } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
-import { env } from 'process'
 import { AiServiceR, AiServiceT } from '@/types'
+import loadConf from '@/config'
 
-const openai = createOpenAI({
-  apiKey: env.openai_model,
-})
-
+const { config } = loadConf()
+const openai = () => {
+  if (!!config.keys)
+    return createOpenAI({
+      apiKey: config.keys!,
+    })
+}
 export default async function Openai({
   prompt,
   model,
 }: AiServiceT): Promise<AiServiceR> {
-  if (!env.OPENAI_API_KEY) {
+  if (!config.keys) {
     return {
       error: true,
       msg: 'no Openai key provided',
@@ -19,7 +22,7 @@ export default async function Openai({
   }
   try {
     const { text } = await generateText({
-      model: openai(model),
+      model: openai()!(model),
       prompt: prompt,
     })
     return {

@@ -7,32 +7,36 @@ const program = new Command()
 program.version('1.0.0').description('a funny warp-like copycat')
 
 program
+  .command('config')
   .option(
-    '-c, --code <prompt>',
-    'Pass a custom config for the terminal when working with different AI and projects',
-    (input: string) => {
-      const opts = argv.slice(3, argv.length).join(' ')
-      Flags.code(opts)
-    },
+    '-r, --rewrite <key>',
+    `change the value of the keys:
+        [keys]
+        [model]`,
   )
-  .option(
-    '-s, --shell <prompt>',
-    'Ask the AI a shell command in natural language and get back the output withing your clipboard',
-    Flags.shell,
-  )
-  .option(
-    '-a, --ask <prompt>',
-    'Use the GPT capabilities of the AI to ask about anything',
-    Flags.ask,
-  )
+  .argument('<value>')
+  .description('change the value of the config')
+  .action((str, option) => {
+    Flags.config({
+      input: str,
+      options: option.rewrite,
+    })
+  })
 
-function main() {
+async function main() {
   if (!argv[2]) {
-    term()
-    return
+    let val: string | undefined = ''
+    while (true) {
+      if (!!val) {
+        const ans = await term(val)
+        val = !!ans ? ans : undefined
+        continue
+      }
+      const ans = await term()
+      val = !!ans ? ans : undefined
+    }
   }
   program.parse(argv)
-  exit(0)
 }
 
 main()

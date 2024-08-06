@@ -1,11 +1,1 @@
-{
-  "keys": {
-    "gemini": null,
-    "openai": null
-  },
-  "model": "tinyllama",
-  "service": "ollama",
-  "ollama_model": "ALIENTELLIGENCE/bashbot",
-  "openai_model": "gpt-4-turbo",
-  "gemini_model": "models/gemini-1.5-pro-latest"
-}
+{"model":"phi3:mini","keys":"hey","service":"ollama","ollama_model":"phi3:mini","openai_model":"gpt-4-turbo"}
