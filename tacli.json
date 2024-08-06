@@ -1,7 +1,1 @@
-{
-  "model": "phi3:mini",
-  "keys": "",
-  "service": "openai",
-  "ollama_model": "phi3:mini",
-  "openai_model": "gpt-4-turbo",
-}
+{"model":"gpt-4-turbo","keys":"","service":"ollama","ollama_model":"phi3:mini","openai_model":"gpt-4-turbo"}
