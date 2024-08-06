@@ -2,6 +2,7 @@ import { argv, exit } from 'process'
 import { Command } from 'commander'
 import term from '@/terminal'
 import { Flags } from '@/flags/flags'
+import { checkConf } from '@/config'
 
 const program = new Command()
 program.version('1.0.0').description('a funny warp-like copycat')
@@ -24,6 +25,8 @@ program
   })
 
 async function main() {
+  checkConf()
+
   if (!argv[2]) {
     let val: string | undefined = ''
     while (true) {

@@ -1,12 +1,21 @@
-import { cwd } from 'process'
 import config from './../tacli.json'
 import Bun from 'bun'
 import { serviceT } from './types'
 
 export async function checkConf() {
-  const path = `${cwd()}/tacli.json`
+  const path = `./tacli.json`
   const exists = Bun.file(path).exists()
   if (!(await exists)) {
+    Bun.write(
+      './tacli.json',
+      JSON.stringify({
+        model: 'phi3:mini',
+        keys: '',
+        service: 'openai',
+        ollama_model: 'phi3:mini',
+        openai_model: 'gpt-4-turbo',
+      }),
+    )
   }
 }
 
