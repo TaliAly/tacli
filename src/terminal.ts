@@ -1,37 +1,42 @@
+import Select from './ai/select'
+import { cmdErrHandler } from 'utils/cmdErrHandler'
 import { execSync } from 'node:child_process'
 import { exit } from 'process'
-import cmd from './cmd'
 import prompt from './cmd/prompt'
-import readline from 'node:readline'
-import { cmdErrHandler } from 'utils/cmdErrHandler'
-import Select from './ai/select'
+import readline from 'readline'
+import cmd from './cmd'
 
 const reader = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 })
 
-export default async function term(defaultCommand?: string): Promise<void> {
+export default async function term(
+  defaultCommand?: string,
+): Promise<string | undefined> {
   const { question } = prompt({
-    defaultPrompt: defaultCommand!,
     reader: reader,
+    defaultOpt: defaultCommand,
   })
-  // reset default command
-  defaultCommand = ''
-  const res: string = await question
+  const res = await question
+  console.log('freeze')
 
   if (res == 'quit' || res == 'exit') {
-    reader.close()
     exit(0)
+  }
+
+  if (res == '' || res == undefined || res == '\n') {
+    return undefined
   }
 
   // the cmd will read the passed command
   // if it doesn't find anything, it won't
   // pass an output (null)
-  const { answer } = await cmd(res)
+  // Why? because there aren't commands on the system
+  // that we need to run
+  const { answer } = await cmd(res!)
   if (!!answer) {
-    const { msg } = await Select(answer!)
-    defaultCommand = msg
+    return answer
   }
 
   try {
@@ -39,8 +44,12 @@ export default async function term(defaultCommand?: string): Promise<void> {
       stdio: [0, 1, 2],
     })
   } catch (err) {
-    const ans = await cmdErrHandler({ res })
-    defaultCommand = ans?.msg!
+    const ans = await cmdErrHandler({
+      res: res,
+      err: err as string,
+    })
+    return ans
   }
-  term(defaultCommand)
+
+  return undefined
 }

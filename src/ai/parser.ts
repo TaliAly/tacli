@@ -1,22 +1,32 @@
 export const parser = {
   select: function (input: string) {
-    const noOut = [
-      {
-        text: '',
-        description: '',
-      },
-    ]
-    if (!!input) return noOut
+    const noOut = ['']
+    if (input == '') return noOut
     const regex = /`{1,3}((?:\\.|[^`])*)`{1,3}/g
     const matches = input.match(regex)
 
-    if (!matches) return noOut
+    if (!matches) {
+      const res = input.split(`\n`)
+      return res.map((match: string) => {
+        const res = match
+          .replace(/^`+|`+$/g, '')
+          .replace(/^.*\n/, '')
+          .trim()
+        return {
+          name: res,
+          value: res,
+        }
+      })
+    }
 
     return matches.map((match: string) => {
-      const res = match.replace(/^`+|`+$/g, '')
+      const res = match
+        .replace(/^`+|`+$/g, '')
+        .replace(/^.*\n/, '')
+        .trim()
       return {
-        text: res,
-        description: '',
+        name: res,
+        value: res,
       }
     })
   },
@@ -24,8 +34,13 @@ export const parser = {
     const regex = /`{1,3}((?:\\.|[^`])*)`{1,3}/g
     const matches = input.match(regex)
 
-    if (!matches) return ''
+    if (!matches) {
+      return input.split('\n')[1]
+    }
 
-    return matches[0]
+    let res = matches![0].replace(/^`+|`+$/g, '')
+    res.replace(/^.*\n/, '').trim()
+    if (res.includes('bash')) return res.split('\n')[1]
+    return res
   },
 }

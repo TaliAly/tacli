@@ -1,34 +1,43 @@
-import { argv, env, exit } from 'process'
+import { argv, exit } from 'process'
 import { Command } from 'commander'
-import loadConf from '@/config'
 import term from '@/terminal'
-import Code from '@/flags/code'
+import { Flags } from '@/flags/flags'
+import { checkConf } from '@/config'
 
 const program = new Command()
 program.version('1.0.0').description('a funny warp-like copycat')
 
 program
+  .command('config')
   .option(
-    '-a',
-    '--ask',
-    'Use the GPT capabilities of the AI to ask about anything',
+    '-r, --rewrite <key>',
+    `change the value of the keys:
+        [keys]
+        [model]`,
   )
-  .option(
-    '-c',
-    '--code',
-    'Pass a custom config for the terminal when working with different AI and projects',
-  )
-  .option(
-    '-s',
-    '--shell',
-    'Ask the AI a shell command in natural language and get back the output withing your clipboard',
-  )
+  .argument('<value>')
+  .description('change the value of the config')
+  .action((str, option) => {
+    Flags.config({
+      input: str,
+      options: option.rewrite,
+    })
+  })
 
-function main() {
-  loadConf()
+async function main() {
+  checkConf()
+
   if (!argv[2]) {
-    term()
-    return
+    let val: string | undefined = ''
+    while (true) {
+      if (!!val) {
+        const ans = await term(val)
+        val = !!ans ? ans : undefined
+        continue
+      }
+      const ans = await term()
+      val = !!ans ? ans : undefined
+    }
   }
   program.parse(argv)
 }

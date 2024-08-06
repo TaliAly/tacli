@@ -1,39 +1,31 @@
-import { parser } from './parser'
-import { createSelection } from 'bun-promptx'
+import { select } from '@inquirer/prompts'
 
 type SelectT = {
   error: boolean
   msg: string
 }
 
-export default async function Select(input: string): Promise<SelectT> {
-  const options = parser.select(input)
-  console.log(options)
-
+export default async function Select(
+  options: { name: string; value: string }[],
+): Promise<SelectT> {
   if (!options)
     return {
       error: true,
       msg: "Sorry... I don't know which command",
     }
 
-  console.log(options.length)
-
   if (options.length == 1)
     return {
       error: false,
-      msg: options[0]?.text!,
+      msg: options[0]?.name!,
     }
 
-  const { error, selectedIndex } = createSelection(options)
-
-  if (!!error)
-    return {
-      error: true,
-      msg: '',
-    }
-
+  const answer = await select({
+    message: 'I think you can use one of these:',
+    choices: [...options],
+  })
   return {
     error: false,
-    msg: options[selectedIndex].text,
+    msg: answer.toString()!,
   }
 }
