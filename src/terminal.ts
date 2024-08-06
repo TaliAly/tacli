@@ -19,7 +19,6 @@ export default async function term(
     defaultOpt: defaultCommand,
   })
   const res = await question
-  console.log('freeze')
 
   if (res == 'quit' || res == 'exit') {
     exit(0)

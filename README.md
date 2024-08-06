@@ -13,6 +13,15 @@ bun run build # or bun start
 ./tacli config -r model <your_ollama_model>
 ```
 
+## Uses?
+
+You can use it as a wraper for your terminal, to which, when you get an error, it will try to ask the AI to help you.
+
+```
+~> # ask a shell command using natural language
+~> #! ask something to the AI itself
+```
+
 ## TODO
 
 - [] fix bugs with sub-tasks that take over the shell
