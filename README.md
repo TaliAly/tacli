@@ -5,6 +5,7 @@
 ```bash
 git clone https://github.com/TaliAly/tacli.git
 # ssh version: git clone git@github.com:TaliAly/tacli.git
+cd tacli
 bun i
 bun run build # or bun start
 ./tacli config -r keys <openai_key>
