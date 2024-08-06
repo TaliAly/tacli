@@ -17,16 +17,7 @@ bun run build # or bun start
 
 You can use it as a wraper for your terminal, to which, when you get an error, it will try to ask the AI to help you code
 
-```
-Usage: tacli [OPTIONS] [PROMPT]
+## TODO
 
-DESCRIPTION
-tacli is a wrapper for your everyday use of commands inside the terminal. It lets you work without having to google each command that you want to run or just to search for something inside your terminal
-
-The following options are available:
-    config
-
-VERSION v1.0.1
-
-
-```
+- [] fix bugs with sub-tasks that take over the shell
+- [] improve AI submittion ~~(custom model)~~
